@@ -48,4 +48,13 @@ class Grid(val cells: Array<Array<Cell>>) {
     override fun toString() =
         cells.joinToString(prefix = "\n", separator = "\n", postfix = "\n") { it.joinToString("") }
 
+    private val nextState = cells
+        .map2DIndexed { cell, row, column -> cell evolveWith neighbours(row, column)}
+
+    fun evolve() = Grid(nextState)
 }
+
+inline fun <reified T> Array<Array<T>>.map2DIndexed(block: (T,Int,Int)->(T)): Array<Array<T>> =
+    mapIndexed { rowIndex, row ->
+        row.mapIndexed { columnIndex, t -> block(t,rowIndex,columnIndex)  }.toTypedArray()
+    }.toTypedArray()
