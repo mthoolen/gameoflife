@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class CellTest {
@@ -6,7 +6,14 @@ internal class CellTest {
     internal fun `cell is dead or alive`() {
         val deadCell = Cell(false)
         val aliveCell = Cell("*")
-        Assertions.assertTrue(deadCell.dead)
-        Assertions.assertTrue(aliveCell.alive)
+        assertThat(deadCell.dead).isTrue()
+        assertThat(aliveCell.alive).isTrue()
+    }
+
+    @Test
+    internal fun `cell should be able to tell if a string represents dead or alive`() {
+        assertThat(Cell.isCell("*")).isTrue()
+        assertThat(Cell.isCell(".")).isTrue()
+        assertThat(Cell.isCell("-")).isFalse()
     }
 }

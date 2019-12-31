@@ -6,14 +6,14 @@ internal class GameOfLifeTest {
     internal fun `single live cell should die after a tick`() {
         val before = Grid("*")
         val after = Grid(".")
-        assertThat(after).isEqualTo(GameOfLife.tick(before))
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
     }
 
     @Test
     internal fun `when a row contains a live cell it should die after a tick`() {
         val before = Grid(".*")
         val after = Grid("..")
-        assertThat(after).isEqualTo(GameOfLife.tick(before))
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
     }
 
     @Test
@@ -30,7 +30,58 @@ internal class GameOfLifeTest {
                 |**
             """.trimMargin()
         )
-        assertThat(after).isEqualTo(GameOfLife.tick(before))
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
+    }
+
+    @Test
+    internal fun `a block lives forever`() {
+        val before = Grid(
+            """
+                |**
+                |**
+            """.trimIndent()
+        )
+        val after = Grid(
+            """
+                |**
+                |**
+            """.trimMargin()
+        )
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
+    }
+
+    @Test
+    internal fun `cells with fewer than two neighbours die`() {
+        val before = Grid(
+            """
+                |**
+                |..
+            """.trimIndent()
+        )
+        val after = Grid(
+            """
+                |..
+                |..
+            """.trimMargin()
+        )
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
+    }
+
+    @Test
+    internal fun `cells with more than three neighbours die`() {
+        val before = Grid(
+            """
+                |***
+                |***
+            """.trimIndent()
+        )
+        val after = Grid(
+            """
+                |*.*
+                |*.*
+            """.trimMargin()
+        )
+        assertThat(GameOfLife.tick(before)).isEqualTo(after)
     }
 
 
