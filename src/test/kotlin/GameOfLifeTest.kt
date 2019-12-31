@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class GameOfLifeTest {
@@ -6,14 +6,14 @@ internal class GameOfLifeTest {
     internal fun `single live cell should die after a tick`() {
         val before = Grid("*")
         val after = Grid(".")
-        assertEquals(after, GameOfLife.tick(before))
+        assertThat(after).isEqualTo(GameOfLife.tick(before))
     }
 
     @Test
     internal fun `when a row contains a live cell it should die after a tick`() {
         val before = Grid(".*")
         val after = Grid("..")
-        assertEquals(after, GameOfLife.tick(before))
+        assertThat(after).isEqualTo(GameOfLife.tick(before))
     }
 
     @Test
@@ -30,7 +30,7 @@ internal class GameOfLifeTest {
                 |**
             """.trimMargin()
         )
-        assertEquals(after, GameOfLife.tick(before))
+        assertThat(after).isEqualTo(GameOfLife.tick(before))
     }
 
 

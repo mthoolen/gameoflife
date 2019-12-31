@@ -8,6 +8,7 @@ class Grid(val cells: Array<Array<Cell>>) {
 
         private fun toCell(cell: String)= cell
                 .chunked(1)
+                .filter { it == "*" || it == "." }
                 .map(::Cell)
                 .toTypedArray()
     }
@@ -21,4 +22,7 @@ class Grid(val cells: Array<Array<Cell>>) {
     }
 
     override fun hashCode(): Int = cells.contentDeepHashCode()
+    override fun toString() =
+        cells.joinToString(prefix = "\n", separator = "\n", postfix = "\n") { it.joinToString("") }
+
 }
