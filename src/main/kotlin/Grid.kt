@@ -16,6 +16,8 @@ class Grid(val cells: Array<Array<Cell>>) {
             .toTypedArray()
     }
 
+    fun evolve() = Grid(nextState)
+
     fun neighbours(row: Int, column: Int) = rowRange(row)
         .flatMap { rowIndex -> columnRange(column)
             .map { column -> cell(rowIndex, column) }
@@ -43,15 +45,13 @@ class Grid(val cells: Array<Array<Cell>>) {
         if (!cells.contentDeepEquals(other.cells)) return false
         return true
     }
-
     override fun hashCode(): Int = cells.contentDeepHashCode()
+
     override fun toString() =
         cells.joinToString(prefix = "\n", separator = "\n", postfix = "\n") { it.joinToString("") }
 
     private val nextState = cells
         .map2DIndexed { cell, row, column -> cell evolveWith neighbours(row, column)}
-
-    fun evolve() = Grid(nextState)
 }
 
 inline fun <reified T> Array<Array<T>>.map2DIndexed(block: (T,Int,Int)->(T)): Array<Array<T>> =
